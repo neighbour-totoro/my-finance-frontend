@@ -26,35 +26,20 @@
     </div>
 </template>
 <script>
-import axios from 'axios';
+
 export default{
+  props:{
+  results:{
+     type: Array
+  }
+},
   data(){
     return {
-       results: [],
-       show_edit_buttons: false,
     }
 
   },
-  mounted() {
-    this.get_accounts()
- },
  methods:{
-   add() {
-     this.$emit('create_account')
-   },
 
-   edit_enable(){
-     this.show_edit_buttons = !this.show_edit_buttons
-   },
-
-   get_accounts(){
-      axios.get('http://localhost:8081/account')
-      .then(response => (this.results = response.data));
-   },
-
-   remove(){
-     axios.delete('http://localhost:8081/account', {params: {'id': this.account.id}})
-   }
  },
 }
 </script>
