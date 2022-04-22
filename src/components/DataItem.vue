@@ -1,10 +1,10 @@
 <template>
-    <div :class="acc_type"  class="container-item"  @click="enable_edit">
-          <i :class="acc_icon" class="fa-3x"></i>
-          <p class="title">{{ acc_name }}</p>
-          <p style="font-size:1rem">Лимит: {{ acc_limit}}</p>
+    <div :class="acc.type"  class="container-item"  @click="enable_edit">
+          <i :class="acc.icon" class="fa-3x"></i>
+          <p class="title">{{ acc.name }}</p>
+          <p style="font-size:1rem">Лимит: {{ acc.limit}}</p>
         <div class="container-item-actions" v-if="show_edit" @click.stop>
-            <button ><i class="far fa-ban"></i>Удалить</button>
+            <button @click="$emit('remove', acc)"><i class="far fa-ban"></i>Удалить</button>
             <button><i class="far fa-edit"></i>Изменить</button>
         </div>
     </div>
@@ -12,7 +12,7 @@
 <script>
 export default{
   props:[
-    'acc_name','acc_limit', 'acc_type', 'acc_icon'
+    'acc'
  ],
   data(){
      return{
@@ -22,6 +22,9 @@ export default{
   methods:{
      enable_edit(){
        this.show_edit = !this.show_edit
+     },
+     remove(){
+       this.$emit('remove_acc')
      }
   }
 }

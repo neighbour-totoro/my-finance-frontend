@@ -1,11 +1,10 @@
 <template>
    <div  class="container">
-      <div v-for="row in results" :key="row.id" >
-        <data-item 
-        :acc_name="row.name" 
-        :acc_type="row.type" 
-        :acc_icon="row.icon"
-        :acc_limit="row.limit"/>
+      <div v-for="acc in results" :key="acc.id" >
+        <data-item  
+        :acc = acc
+        @remove="$emit('remove', acc)"
+        />
       </div>  
       <button class="container-item-add" @click="add">
         <img src='@/assets/add.png'>Добавить
@@ -31,7 +30,7 @@ export default{
  methods:{
    add(){
      this.$emit('add_account')
-   }
+   },
  },
 }
 </script>
