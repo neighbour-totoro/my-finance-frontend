@@ -1,33 +1,23 @@
 <template>
    <div  class="container">
       <div v-for="row in results" :key="row.id" >
-        <div :class="row.type"  class="container-item">
-          <div class="actions" v-if="show_edit_buttons">
-            <button @click="remove(row)">
-              <i class="far fa-ban">
-                </i>Удалить
-              </button>
-            <button><i class="far fa-edit"></i>Изменить</button>
-            
-        </div>
-          <i :class="row.icon" class="fa-3x"></i>
-          <p class="title">{{ row.name }}</p>
-          <p style="font-size:1rem">Лимит: {{ row.limit}}</p>
-        </div>
-       
+        <data-item 
+        :acc_name="row.name" 
+        :acc_type="row.type" 
+        :acc_icon="row.icon"
+        :acc_limit="row.limit"/>
       </div>  
       <button class="container-item-add" @click="add()">
         <img src='@/assets/add.png'>Добавить
       </button>
-       <button class="container-item-add" @click="edit_enable()">
-        <img src='@/assets/node_design.png'>Редактировать 
-      </button>
-
     </div>
 </template>
 <script>
-
+import DataItem from './DataItem.vue'
 export default{
+  components:{
+    DataItem
+  },
   props:{
   results:{
      type: Array
@@ -67,73 +57,10 @@ export default{
           font-size: 2rem;
         }
 
-        &-item{
-          display: flex;
-          flex-flow: column nowrap;
-          align-items: center;
-          justify-content: center;
-          border: 0.12rem solid #9b9b9b;
-          border-radius:5px;
-          align-content: space-around;
-          padding: 10px;
-          margin: 8px;
-          width: 220px;
-          height:200px;
-          font-size: 1.1rem;
-          font-weight: 400;
-          transition-property: box-shadow;
-          transition-duration: 0.4s;
 
-          .title{
-            font-size: 1.3rem;
-            margin: 5px;
-          }
-
-         &:hover{
-           border: 2px solid #8d8d8d5b;
-           box-shadow:0px 0px 3px 2px darkgrey;
-         }
-
-         &-add{
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          border: 0px;
-          background-color: transparent;
-          padding: 20px;
-          margin: 8px;
-          width: 220px;
-          height:200px;
-          font-size: 1.3rem;
-
-              &:hover{
-                border: 1px solid #9b9b9b;
-                border-radius:5px;
-                background-color: #fff;
-            }
-
-              &:active{
-                border: 1px solid #9b9b9b;
-                border-radius:5px;
-                background-color: #b9b7b7;
-            }
-         }
-      }
   }
   
-    .account-asset{
-      background-color: #3767b1bb;
-      color: #fff;
-    }
-    .account-revenue{
-      background-color: #67941f;
-      color: #fff;
-    }
-    .account-expense{
-      background-color: #691c27;
-      color: #fff;
-    }
+
   .actions{
      display: flex;
      flex-flow: row nowrap;
