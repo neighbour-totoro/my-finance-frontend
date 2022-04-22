@@ -3,7 +3,7 @@
           <i :class="acc_icon" class="fa-3x"></i>
           <p class="title">{{ acc_name }}</p>
           <p style="font-size:1rem">Лимит: {{ acc_limit}}</p>
-        <div class="container-item-actions" v-if="show_edit">
+        <div class="container-item-actions" v-if="show_edit" @click.stop>
             <button ><i class="far fa-ban"></i>Удалить</button>
             <button><i class="far fa-edit"></i>Изменить</button>
         </div>
@@ -21,12 +21,12 @@ export default{
   },
   methods:{
      enable_edit(){
-       this.show_edit != this.show_edit
+       this.show_edit = !this.show_edit
      }
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
     .container-item{
           display: flex;
           flex-flow: column nowrap;
@@ -54,31 +54,33 @@ export default{
            box-shadow:0px 0px 3px 2px darkgrey;
          }
 
-         &-add{
+
+        &-actions{
+          width:100%;
+          height: 70px;
           display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          border: 0px;
-          background-color: transparent;
-          padding: 20px;
-          margin: 8px;
-          width: 220px;
-          height:200px;
-          font-size: 1.3rem;
+          flex-flow: column nowrap;
+          margin-bottom: -20px;
+          justify-content: space-around;
+          padding:3px;
 
-              &:hover{
-                border: 1px solid #9b9b9b;
-                border-radius:5px;
-                background-color: #fff;
+          button{
+            width:100%;
+            height: 30px;
+            background-color: #00000069;
+            color: rgb(214, 214, 214);
+            border: none;
+
+            &:hover{
+              background-color: #00000098;
+              color:#fff;
             }
 
-              &:active{
-                border: 1px solid #9b9b9b;
-                border-radius:5px;
-                background-color: #b9b7b7;
+            &:active{
+              background-color: #c9c9c998;
             }
-         }
+          }
+        }
       }
 
     .account-asset{

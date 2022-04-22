@@ -7,7 +7,7 @@
         :acc_icon="row.icon"
         :acc_limit="row.limit"/>
       </div>  
-      <button class="container-item-add" @click="add()">
+      <button class="container-item-add" @click="add">
         <img src='@/assets/add.png'>Добавить
       </button>
     </div>
@@ -29,7 +29,9 @@ export default{
 
   },
  methods:{
-
+   add(){
+     this.$emit('add_account')
+   }
  },
 }
 </script>
@@ -59,6 +61,31 @@ export default{
 
 
   }
+        .container-item-add{
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          border: 0px;
+          background-color: transparent;
+          padding: 20px;
+          margin: 8px;
+          width: 220px;
+          height:200px;
+          font-size: 1.3rem;
+
+              &:hover{
+                border: 1px solid #9b9b9b;
+                border-radius:5px;
+                background-color: #fff;
+            }
+
+              &:active{
+                border: 1px solid #9b9b9b;
+                border-radius:5px;
+                background-color: #b9b7b7;
+            }
+         }
   
 
   .actions{
