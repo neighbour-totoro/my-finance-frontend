@@ -1,16 +1,16 @@
 <template>
-   <div  class="container">
-      <div v-for="acc in results" :key="acc.id" >
-        <data-item  
-        :acc = acc
-        @remove="$emit('remove', acc)"
-        />
-      </div>  
-      <button class="container-item-add" @click="add">
-        <img src='@/assets/add.png'>Добавить
-      </button>
-    </div>
-</template>
+    <div  class="container">
+        <div v-for="acc in results" :key="acc.id" >
+          <data-item  
+          :acc = acc
+          @remove="$emit('remove', acc)"
+          />
+        </div>  
+        <button class="container-item-add" @click="add">
+          <img src='@/assets/add.png'>Добавить
+        </button>
+      </div>
+    </template>
 <script>
 import DataItem from './DataItem.vue'
 export default{
@@ -53,7 +53,7 @@ export default{
     margin-left: auto;
     margin-right: auto;
     
-
+ 
         &-title{
           font-size: 2rem;
         }

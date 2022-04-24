@@ -4,9 +4,10 @@
       <add-account @after_create="account_created"/>
     </modal-window>
     <data-list 
-    v-model:results="results" 
+    v-model:results="filtered_acc" 
     @add_account="display_form"
     @remove="remove_acc"/>
+
 </div>
 </template>
 <script>
@@ -24,12 +25,15 @@ components:{
     return {
      results: [],
      show_form: false,
+     confirm_text:'',
+     show_delete_alert: false
     }
   },
   methods:{
     get_accounts(){
         axios.get('http://localhost:8081/account')
-        .then(response => (this.results = response.data));
+        .then(response => (
+          this.results = response.data));
     },
     display_form(){
         this.show_form = true;
@@ -39,12 +43,21 @@ components:{
       this.get_accounts()
     },
     remove_acc(row){
-       axios.delete('http://localhost:8081/account/', {data:{"id": row.id}})
-      .then((response) => {console.log(response)})
+       if (confirm()){
+          axios.delete('http://localhost:8081/account/', {data:{"id": row.id}})
+                .then((response) => {console.log(response)})
+          this.get_accounts()
+       }
+       
     }
   },
   mounted(){
       this.get_accounts()
+  },
+  computed:{
+    filtered_acc: function(){
+       return this.results.filter(data => data.expirationDate === null);
+    }
   }
 }
 </script>

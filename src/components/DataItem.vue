@@ -1,5 +1,9 @@
 <template>
-    <div :class="acc.type"  class="container-item"  @click="enable_edit">
+    <div 
+     :class="acc.type"  
+     class="container-item" 
+     @click="enable_edit"
+    >
           <i :class="acc.icon" class="fa-3x"></i>
           <p class="title">{{ acc.name }}</p>
           <p style="font-size:1rem">Лимит: {{ acc.limit}}</p>
@@ -54,9 +58,8 @@ export default{
 
          &:hover{
            border: 2px solid #8d8d8d5b;
-           box-shadow:0px 0px 3px 2px darkgrey;
+           box-shadow:0px 0px 3px 2px rgb(196, 196, 196);
          }
-
 
         &-actions{
           width:100%;
