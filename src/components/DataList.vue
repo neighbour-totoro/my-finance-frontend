@@ -1,6 +1,6 @@
 <template>
     <div  class="container">
-        <div v-for="acc in results" :key="acc.id" >
+        <div v-for="acc in filtered_acc" :key="acc.id" >
           <data-item  
           :acc = acc
           @remove="$emit('remove', acc)"
@@ -17,11 +17,6 @@ export default{
   components:{
     DataItem
   },
-  props:{
-  results:{
-     type: Array
-  }
-},
   data(){
     return {
     }
@@ -32,6 +27,17 @@ export default{
      this.$emit('add_account')
    },
  },
+ mounted(){
+    this.$store.dispatch('get_data')
+ },
+  computed: {
+      received_data: function(){
+         return this.$store.state.results
+    },
+    filtered_acc: function(){
+       return this.received_data.filter(data => data.expirationDate === null);
+    }
+ }
 }
 </script>
 <style lang="scss">

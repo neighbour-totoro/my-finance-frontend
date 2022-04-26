@@ -75,14 +75,8 @@
     </div>
 </template>
 <script>
-import axios from 'axios'
 export default{
-  props:{
-     show:{
-       type: Boolean,
-       default: true
-     }
-  },
+
   data(){
     return {
        acc_name: '',
@@ -102,27 +96,13 @@ export default{
               type: this.acc_type,
               limit:this.acc_limit,
          }
-        axios.post('http://localhost:8081/account', new_acc)
-        .then(response => {
-            if (response.data != -1){
-              this.$emit('after_create')
-              this.acc_name = ''
-              this.acc_limit = 0
-              this.acc_icon = ''
-            }
-            else{
-              this.form_error = "Не удаётся добавить баланс! Проверьте ввод"
-            }
-        })
-      
-      } catch(e){
+        this.$store.dispatch('set_data', new_acc)
+        this.$emit('after_create')
+         } catch(e){
         this.form_error = 'При выполнении запроса произошла ошибка'
       }
       
     },
-    hide_form(){
-      this.$emit('update:show', false)
-    }
   },
 }
 </script>

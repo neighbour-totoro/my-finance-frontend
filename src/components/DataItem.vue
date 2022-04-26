@@ -4,7 +4,7 @@
      class="container-item" 
      @click="enable_edit"
     >
-          <i :class="acc.icon" class="fa-3x"></i>
+          <i :class="acc.icon" class="fa-3x" v-if="!show_edit"></i>
           <p class="title">{{ acc.name }}</p>
           <p style="font-size:1rem">Лимит: {{ acc.limit}}</p>
         <div class="container-item-actions" v-if="show_edit" @click.stop>
@@ -63,7 +63,7 @@ export default{
 
         &-actions{
           width:100%;
-          height: 70px;
+          height: 76px;
           display: flex;
           flex-flow: column nowrap;
           margin-bottom: -20px;
@@ -72,7 +72,7 @@ export default{
 
           button{
             width:100%;
-            height: 30px;
+            height: 32px;
             background-color: #00000069;
             color: rgb(214, 214, 214);
             border: none;
