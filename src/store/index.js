@@ -13,30 +13,33 @@ export default createStore({
   },
 
   mutations: {
-     set_results: (state, payload) => {
+    SET_RESULTS: (state, payload) => {
          state.results = payload;
      },
 
-     add_data: (state, payload) => {
+    ADD_RESULTS: (state, payload) => {
         state.results.push(payload);
       },
-
+    REMOVE_FROM_RESULTS: (state, payload) => {
+        const i = state.results.map(item => item.id).indexOf(payload);
+        state.results.splice(i, 1);
+      } 
   },
 
   actions: {
     get_data: async (context) => {
         let {data} = await  Axios.get('http://localhost:8081/account');
-        context.commit('set_results', data);
+        context.commit('SET_RESULTS', data);
       },
       
      set_data: async (context, payload) => {
        await Axios.post('http://localhost:8081/account', payload);
-        context.commit('add_data', payload);
+        context.commit('ADD_RESULTS', payload);
       },
-    remove_data: async (context, payload) => {
-        await Axios.delete('http://localhost:8081/account/', {data:{"id": payload}})
-        context.commit('get_results');
-    }
+      remove_data: async (context, payload) => {
+          await Axios.delete('http://localhost:8081/account/', {data:{"id": payload}})
+        context.commit('REMOVE_FROM_RESULTS', payload)
+      }
 
   },
 });

@@ -1,8 +1,9 @@
 <template>
     <div  class="container">
-        <div v-for="acc in filtered_acc" :key="acc.id" >
-          <data-item  
-          :acc = acc
+        <div v-for="acc in get_results" :key="acc.id" >
+          <data-item 
+          v-if="acc.expirationDate == null" 
+           :acc = acc
           @remove="$emit('remove', acc)"
           />
         </div>  
@@ -13,6 +14,7 @@
     </template>
 <script>
 import DataItem from './DataItem.vue'
+import {mapGetters} from 'vuex';
 export default{
   components:{
     DataItem
@@ -23,7 +25,7 @@ export default{
 
   },
  methods:{
-   add(){
+    add(){
      this.$emit('add_account')
    },
  },
@@ -31,12 +33,14 @@ export default{
     this.$store.dispatch('get_data')
  },
   computed: {
-      received_data: function(){
-         return this.$store.state.results
-    },
-    filtered_acc: function(){
-       return this.received_data.filter(data => data.expirationDate === null);
-    }
+      ...mapGetters(['get_results']),
+
+    /*filtered_acc: function(){
+       return this.get_results.filter(data => data.expirationDate === null);
+    }*/
+ },
+ watch:{
+
  }
 }
 </script>

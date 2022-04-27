@@ -6,24 +6,27 @@
     <data-list 
     @add_account="display_form"
     @remove="remove_acc"/>
-
+    <modal-window v-model:show="deletion_show">
+       <confirm-remove :acc_id="acc_id"/>
+    </modal-window>
 </div>
 </template>
 <script>
 import DataList from './components/DataList.vue'
 import ModalWindow from './components/ModalWindow.vue'
 import AddAccount from './components/AddAccount.vue'
+import ConfirmRemove from './components/ConfirmRemove.vue'
 export default{
   
 components:{
-   DataList, ModalWindow, AddAccount
+   DataList, ModalWindow, AddAccount, ConfirmRemove
 },
-
   data(){
     return {
      show_form: false,
      confirm_text:'',
-     show_delete_alert: false
+     deletion_show: false,
+     acc_id: -1
     }
   },
   methods:{
@@ -35,9 +38,10 @@ components:{
 
     },
     remove_acc(row){
-       if (confirm()){
-          this.$store.dispatch('remove_data', row.id)
-       }
+      this.deletion_show = true
+      this.acc_id = row.id
+          //this.$store.dispatch('remove_data', row.id)
+
     }
   },
 }
