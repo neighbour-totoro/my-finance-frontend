@@ -2,9 +2,10 @@
     <div  class="container">
         <div v-for="acc in get_results" :key="acc.id" >
           <data-item 
-          v-if="acc.expirationDate == null" 
+           v-if="acc.expirationDate == null" 
            :acc = acc
-          @remove="$emit('remove', acc)"
+           @remove="$emit('remove', acc)"
+           @edit="$emit('edit', acc)"
           />
         </div>  
         <button class="container-item-add" @click="add">

@@ -1,6 +1,6 @@
 <template>
     <div class="form-container" >
-      <p style="font-size: 1.7rem; margin:3px">Добавление баланса</p>
+      <p style="font-size: 1.7rem; margin:3px">{{ form_title }}</p>
       <form method="post" action="/account" @submit.prevent="true">
         <div>
           <label class="form-label">Название</label>
@@ -22,7 +22,7 @@
           >
         </div>
         <div style="display:flex; flex-direction:row; justify-content:flex-start">
-          <div >
+          <div v-if="!is_update">
           <label class="form-label">Тип баланса</label>
           <select class="form-select" v-model="acc_type" required>
             <option selected value="account-expense">Расход</option>
@@ -70,21 +70,39 @@
           
         </div>
         <p class="red">{{ form_error }}</p>
-          <button class="btn btn-success m-2" @click='create_account'>Добавить</button>
-          <button class="btn btn-secondary m-2" @click="this.$emit('close_window')">Отмена</button>
+          <button 
+            class="btn btn-success m-2" 
+            @click='create_account'
+            v-if="!is_update"
+          >Добавить</button>
+          <button 
+            class="btn btn-success m-2" 
+            @click='save_changes'
+            v-if="is_update"
+          >Сохранить и закрыть</button>
+          <button class="btn btn-secondary m-2" @click="this.$emit('close_window')">Закрыть</button>
       </form>
     </div>
 </template>
 <script>
 export default{
-
+  props:{
+    acc_data:{
+      type: Array
+    },
+    is_update:{
+       type: Boolean,
+       default: false
+    } 
+  },
   data(){
     return {
        acc_name: '',
        acc_limit: 0,
        acc_type: '',
        acc_icon: '',
-       form_error:''
+       form_error:'',
+       form_title: 'Добавление баланса',
     }
   },
   methods: {
@@ -102,9 +120,26 @@ export default{
          } catch(e){
         this.form_error = 'При выполнении запроса произошла ошибка'
       }
-      
+    },
+    get_edit_data(){
+      if (this.is_update){
+        this.acc_name = this.acc_data.name
+        this.acc_limit = this.acc_data.limit
+        this.acc_type = this.acc_data.type
+        this.acc_icon = this.acc_data.icon
+        this.form_title = "Редактирование баланса"
+      }
+    },
+    save_changes(){
+      this.$emit('close_window')      
     },
   },
+  mounted(){
+    if (this.is_update){
+      this.get_edit_data()
+    }
+    
+  }
 }
 </script>
 
