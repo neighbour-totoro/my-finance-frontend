@@ -1,13 +1,16 @@
 <template>
 <div>
     <modal-window v-model:show="show_form">
-      <add-account @after_create="account_created"/>
+      <add-account 
+         @close_window="this.show_form=false"
+      />
     </modal-window>
     <data-list 
     @add_account="display_form"
     @remove="remove_acc"/>
-    <modal-window v-model:show="deletion_show">
-       <confirm-remove :acc_id="acc_id"/>
+    <modal-window v-model:show="deletion_show" >
+       <confirm-remove :acc_id="acc_id" 
+       @close_window="this.deletion_show=false"/>
     </modal-window>
 </div>
 </template>
@@ -26,23 +29,18 @@ components:{
      show_form: false,
      confirm_text:'',
      deletion_show: false,
-     acc_id: -1
+     acc_id: []
     }
   },
   methods:{
     display_form(){
         this.show_form = true;
     },
-    account_created(){
-      this.show_form = false;
-
-    },
     remove_acc(row){
       this.deletion_show = true
-      this.acc_id = row.id
+      this.acc_id = row
           //this.$store.dispatch('remove_data', row.id)
-
-    }
+    },
   },
 }
 </script>

@@ -70,7 +70,8 @@
           
         </div>
         <p class="red">{{ form_error }}</p>
-          <button class="btn btn-primary" @click='create_account'>Добавить</button>
+          <button class="btn btn-success m-2" @click='create_account'>Добавить</button>
+          <button class="btn btn-secondary m-2" @click="this.$emit('close_window')">Отмена</button>
       </form>
     </div>
 </template>
@@ -97,7 +98,7 @@ export default{
               limit:this.acc_limit,
          }
         this.$store.dispatch('set_data', new_acc)
-        this.$emit('after_create')
+        this.$emit('close_window')
          } catch(e){
         this.form_error = 'При выполнении запроса произошла ошибка'
       }

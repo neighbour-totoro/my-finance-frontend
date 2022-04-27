@@ -9,7 +9,7 @@
           <p style="font-size:1rem">Лимит: {{ acc.limit}}</p>
         <div class="container-item-actions" v-if="show_edit" @click.stop>
             <button @click="$emit('remove', acc)"><i class="far fa-ban"></i>Удалить</button>
-            <button><i class="far fa-edit"></i>Изменить</button>
+            <button @click="$emit('edit_acc', acc)"><i class="far fa-edit"></i>Изменить</button>
         </div>
     </div>
 </template>
