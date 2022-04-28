@@ -8,7 +8,9 @@
           <i :class="acc.icon" class="fa-3x" v-if="!show_edit"></i>
           <p class="title">{{ acc.name }}</p>
           
-          <p v-if="acc.limit > 0" style="font-size:1rem">Лимит: {{ acc.limit}}</p>
+          <div v-if="acc.limit > 0" style="font-size:1rem">
+            <p>{{ ac_lim_name }}: {{ acc.limit}}</p>
+            </div>
         <div class="container-item-actions" v-if="show_edit" @click.stop>
             <button @click="$emit('remove', acc)"><i class="far fa-ban"></i>Удалить</button>
             <button @click="$emit('edit', acc)"><i class="far fa-edit"></i>Изменить</button>
@@ -23,7 +25,8 @@ export default{
  ],
   data(){
      return{
-       show_edit: false
+       show_edit: false,
+       ac_lim_name: ''
      }
   },
   methods:{
@@ -33,6 +36,17 @@ export default{
      remove(){
        this.$emit('remove_acc')
      }
+  },
+  mounted(){
+    if (this.acc.type == 'account-revenue'){
+       this.ac_lim_name = "Сумма"
+    }
+    else if (this.acc.type == 'account-asset'){
+      this.ac_lim_name = "Общее"
+    }
+    else{
+      this.ac_lim_name = "Лимит"
+    }
   }
 }
 </script>

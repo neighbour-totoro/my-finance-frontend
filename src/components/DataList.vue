@@ -1,7 +1,7 @@
 <template>
   <div class="data-list">
     <div class="container">
-        <div v-for="acc in get_results" v-bind:key="acc.id">
+        <div v-for="acc in filtered_acc" v-bind:key="acc.id">
           <data-item
             v-if="acc.expirationDate == null"
             :acc="acc"
@@ -42,11 +42,19 @@ export default {
   computed: {
     ...mapGetters(["get_results"]),
 
-    /*filtered_acc: function(){
-       return this.get_results.filter(data => data.expirationDate === null);
-    }*/
+    filtered_acc: function(){
+    if ((this.acc_types == 'account-all') || (this.acc_types == '')) {
+      return this.$store.getters.get_results
+      }
+       else{
+         return this.get_results.filter(data => data.type === this.acc_types);
+       }
+     
+     }
   },
-  watch: {},
+  watch: {
+
+  },
 };
 </script>
 <style lang="scss" scoped>

@@ -56,7 +56,7 @@ export default{
    }
 
    form{
-     width: 170px;
+     width: 175px;
      padding: 0.3rem 1rem;
      margin-right: 10px;
    }

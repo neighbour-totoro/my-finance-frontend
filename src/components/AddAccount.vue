@@ -12,8 +12,8 @@
         />
       </div>
       <div>
-        <label class="form-label">Лимит</label>
-        <input type="number" class="form-control" min="0" v-model="acc_limit" />
+        <label class="form-label">Сумма</label>
+        <input type="number" class="form-control" min="0" v-model="acc_limit" @change="limit_control"/>
       </div>
       <div
         style="display: flex; flex-direction: row; justify-content: flex-start"
@@ -81,8 +81,8 @@ export default {
     return {
       acc_name: "",
       acc_limit: 0,
-      acc_type: "",
-      acc_icon: "",
+      acc_type: "account-revenue",
+      acc_icon: "far fa-wallet",
       form_error: "",
       form_title: "Добавление баланса",
     };
@@ -90,13 +90,11 @@ export default {
   methods: {
     create_account() {
       if (this.acc_name.length < 3) {
-        this.form_error = "Не заполнено поле: название";
-      } else if (this.acc_limit.length == 0 || parseInt(this.acc_limit) < 0) {
-        this.form_error = "Отсутсвует значение, либо значение меньше 0";
+        this.form_error = "Вы не указали название баланса";
       } else if (this.acc_type == "") {
-        this.form_error = "Не выбран тип баланса";
+        this.form_error = "Выберите тип баланса.Это важно";
       } else if (this.acc_icon.length < 3) {
-        this.form_error = "Отсутсвует иконка";
+        this.form_error = "Выберите иконку баланса";
       } else {
         const new_acc = {
           icon: this.acc_icon,
@@ -118,9 +116,7 @@ export default {
     },
     save_changes() {
       if (this.acc_name.length < 3) {
-        this.form_error = "Пустое поле: название";
-      } else if (this.acc_limit.length == 0 || parseInt(this.acc_limit) < 0) {
-        this.acc_limit = 0;
+        this.form_error = "Вы не указали название баланса. ";
       } else {
         const upd_acc = {
           icon: this.acc_icon,
@@ -133,6 +129,11 @@ export default {
         this.$emit("close_window");
       }
     },
+    limit_control(){
+      if ((parseInt(this.acc_limit) < 0) || (this.acc_limit.length == 0)){
+        this.acc_limit = 0
+      }
+    }
   },
   mounted() {
     if (this.is_update) {
