@@ -1,6 +1,7 @@
 <template>
+ <div class="data-list">
     <div  class="container">
-        <div v-for="acc in get_results" :key="acc.id" >
+        <div v-for="acc in get_results"  v-bind:key="acc.id">
           <data-item 
            v-if="acc.expirationDate == null" 
            :acc = acc
@@ -12,7 +13,8 @@
           <img src='@/assets/add.png'>Добавить
         </button>
       </div>
-    </template>
+  </div>
+</template>
 <script>
 import DataItem from './DataItem.vue'
 import {mapGetters} from 'vuex';
@@ -45,22 +47,29 @@ export default{
  }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
   *{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
   }
 
+  .data-list{
+    width:100%; 
+    display: flex; 
+    flex-flow:row wrap;
+    align-items: center;
+  }
+
   .container{
     display: flex;
     flex-flow: row wrap;
-    padding: 15px;
+    padding: 25px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: rgb(85, 85, 85);
-    max-width: 1400px;
-    width:75%;
+    max-width: 1250px;
     align-items: center;
+    justify-content: flex-start;
     margin-left: auto;
     margin-right: auto;
     
@@ -68,34 +77,45 @@ export default{
         &-title{
           font-size: 2rem;
         }
-
+       
+    @media (max-width:991px){
+      width: 75%;
+    }
+    @media (max-width:768px){
+      width: 80%;
+      padding: 10px
+    }
+     @media (max-width:768px){
+    width: 100%;
+    padding: 10px
+  }
 
   }
-        .container-item-add{
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          border: 0px;
-          background-color: transparent;
-          padding: 20px;
-          margin: 8px;
-          width: 220px;
-          height:200px;
-          font-size: 1.3rem;
+  .container-item-add{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 0px;
+    background-color: transparent;
+    padding: 20px;
+    margin: 8px;
+    width: 220px;
+    height:200px;
+    font-size: 1.3rem;
 
-              &:hover{
-                border: 1px solid #9b9b9b;
-                border-radius:5px;
-                background-color: #fff;
-            }
+        &:hover{
+          border: 1px solid #9b9b9b;
+          border-radius:5px;
+          background-color: #fff;
+      }
 
-              &:active{
-                border: 1px solid #9b9b9b;
-                border-radius:5px;
-                background-color: #b9b7b7;
-            }
-         }
+        &:active{
+          border: 1px solid #9b9b9b;
+          border-radius:5px;
+          background-color: #b9b7b7;
+      }
+    }
   
 
   .actions{

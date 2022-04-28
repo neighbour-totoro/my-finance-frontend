@@ -4,12 +4,16 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     results: [],
+    icons:[],
   },
 
   getters: {
      get_results: state => {
          return state.results
-     }
+     },
+     get_acc_icons: state => {
+         return state.icons
+  }
   },
 
   mutations: {
@@ -27,7 +31,10 @@ export default createStore({
     UPDATE_RESULT: (state, payload) => {
         const w = state.results.map(item => item.id).indexOf(payload.id)
         state.results[w] = payload
-    }
+    },
+    SET_ICONS: (state, payload) => {
+      state.icons = payload;
+  },
   },
 
   actions: {
@@ -42,15 +49,19 @@ export default createStore({
       },
       remove_data: async (context, payload) => {
           await Axios.delete('http://localhost:8081/account/', {data:{"id": payload}})
-        context.commit('REMOVE_FROM_RESULTS', payload)
+          context.commit('REMOVE_FROM_RESULTS', payload)
       },
       update_data: async (context, payload) => {
-        await Axios.put('http://localhost:8081/account',  {"id": payload.id,
+           await Axios.put('http://localhost:8081/account',  {"id": payload.id,
                                                           "name": payload.name,
                                                           "limit": payload.limit,
                                                           "type": payload.type,
                                                           "icon": payload.icon});
-        context.commit('UPDATE_RESULT', payload)
+           context.commit('UPDATE_RESULT', payload)
+      },
+      get_icons: async (context) => {
+        let {data} = await  Axios.get('http://localhost:8081/icon');
+        context.commit('SET_ICONS', data);
       },
     }
 });

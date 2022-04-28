@@ -1,13 +1,19 @@
 <template>
 <div class="nav">
-
+  <div class="container">
+    <ul>
+      <li><a href="https://uk8aoo.uz/ob_avtore">435 MHz</a></li>
+    </ul>
+  </div>
 </div>
 </template>
 <script>
 export default{
   name: 'nav-bar',
   data(){
-    
+    return{
+      
+    }
   }
 }
 </script>
@@ -33,6 +39,15 @@ export default{
     color: #0d6efd;
     text-decoration: none;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+  }
+
+  .container{
+    margin-left: auto;
+    margin-right: auto;
+    padding:5px;
+    width: 80%;
+    list-style: none;
+    max-width: 1450px;
   }
 }
 

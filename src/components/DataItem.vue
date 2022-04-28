@@ -6,7 +6,8 @@
     >
           <i :class="acc.icon" class="fa-3x" v-if="!show_edit"></i>
           <p class="title">{{ acc.name }}</p>
-          <p style="font-size:1rem">Лимит: {{ acc.limit}}</p>
+          
+          <p v-if="acc.limit > 0" style="font-size:1rem">Лимит: {{ acc.limit}}</p>
         <div class="container-item-actions" v-if="show_edit" @click.stop>
             <button @click="$emit('remove', acc)"><i class="far fa-ban"></i>Удалить</button>
             <button @click="$emit('edit', acc)"><i class="far fa-edit"></i>Изменить</button>

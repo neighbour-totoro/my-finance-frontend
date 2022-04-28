@@ -1,264 +1,255 @@
 <template>
-    <div class="form-container" >
-      <p style="font-size: 1.7rem; margin:3px">{{ form_title }}</p>
-      <form method="post" action="/account" @submit.prevent="true">
-        <div>
-          <label class="form-label">Название</label>
-          <input 
-            type="text"  
-            class="form-control" 
-            maxlength="16" 
-            v-model="acc_name"
-            required
-          >
-        </div>
-        <div>
-          <label class="form-label">Лимит</label>
-          <input 
-            type="number" 
-            class="form-control" 
-            min="0"
-            v-model="acc_limit"
-          >
-        </div>
-        <div style="display:flex; flex-direction:row; justify-content:flex-start">
-          <div v-if="!is_update">
+  <div class="form-container">
+    <p style="font-size: 1.7rem; margin: 3px">{{ form_title }}</p>
+    <form method="post" action="/account" @submit.prevent="true">
+      <div>
+        <label class="form-label">Название</label>
+        <input
+          type="text"
+          class="form-control"
+          maxlength="16"
+          v-model="acc_name"
+        />
+      </div>
+      <div>
+        <label class="form-label">Лимит</label>
+        <input type="number" class="form-control" min="0" v-model="acc_limit" />
+      </div>
+      <div
+        style="display: flex; flex-direction: row; justify-content: flex-start"
+      >
+        <div v-if="!is_update">
           <label class="form-label">Тип баланса</label>
-          <select class="form-select" v-model="acc_type" required>
+          <select class="form-select" v-model="acc_type">
             <option selected value="account-expense">Расход</option>
             <option value="account-revenue">Доход</option>
             <option value="account-asset">Счет</option>
           </select>
-        </div><div style="margin-left:10px">
-          <label class="form-label">Иконка</label>
-            <select class="form-select" v-model="acc_icon" required>
-            <option selected value="far fa-wallet">Wallet</option>
-            <option value="far fa-credit-card-front">Credit card</option>
-            <option value="far fa-money-bill-wave">Money Bill</option>
-            <option value="far fa-coins">Coins</option>
-            <option value="far fa-receipt">Receipt</option>
-            <option value="far fa-money-check-alt">Money check</option>
-            <option value="far fa-badge-dollar">Dollar</option>
-            <option value="far fa-badge-percent">Percent</option>
-            <option value="far fa-bus">Bus</option>
-            <option value="far fa-globe">Globe</option>
-            <option value="far fa-graduation-cap">Graduation cap</option>
-            <option value="far fa-briefcase">Briefcase</option>
-            <option value="far fa-university">University</option>
-            <option value="far fa-balance-scale">Balance scale</option>
-            <option value="far fa-shopping-cart">Shopping cart</option>
-            <option value="far fa-shopping-basket">Shopping basket</option>
-            <option value="far fa-running">Running</option>
-            <option value="far fa-cloud-music">Cloud music</option>
-            <option value="far fa-film">Film</option>
-            <option value="far fa-popcorn">Popcorn</option>
-            <option value="far fa-gift">Gift</option>
-            <option value="far fa-theater-masks">Theater masks</option>
-            <option value="far fa-book-alt">Book</option>
-            <option value="far fa-burger-soda">Burger and soda</option>
-            <option value="far fa-utensils-alt">Utensils</option>
-            <option value="far fa-cheeseburger">Cheeseburger</option>
-            <option value="far fa-coffee-togo">Coffee</option>
-            <option value="far fa-wine-bottle">Wine</option>
-            <option value="far fa-dog">Dog</option>
-            <option value="far fa-cat">Cat</option>
-            <option value="far fa-desktop">Desktop</option>
-            <option value="far fa-mobile-alt">Mobile</option>
-            <option value="far fa-headphones">Headphones</option>
-          </select></div>
-          <div style="margin: 25px 0 0 20px"><i :class="acc_icon" class="fa-2x"></i></div>
-          
         </div>
-        <p class="red">{{ form_error }}</p>
-          <button 
-            class="btn btn-success m-2" 
-            @click='create_account'
-            v-if="!is_update"
-          >Добавить</button>
-          <button 
-            class="btn btn-success m-2" 
-            @click='save_changes'
-            v-if="is_update"
-          >Сохранить и закрыть</button>
-          <button class="btn btn-secondary m-2" @click="this.$emit('close_window')">Закрыть</button>
-      </form>
-    </div>
+        <div style="margin-left: 10px">
+          <label class="form-label">Иконка</label>
+          <select class="form-select" v-model="acc_icon">
+            <option
+              v-for="option in get_acc_icons"
+              :key="option.id"
+              :value="option.value"
+            >
+              {{ option.name }}
+            </option>
+          </select>
+        </div>
+        <div style="margin: 25px 0 0 20px">
+          <i :class="acc_icon" class="fa-2x"></i>
+        </div>
+      </div>
+      <p class="red">{{ form_error }}</p>
+      <button
+        class="btn btn-success m-2"
+        @click="create_account"
+        v-if="!is_update"
+      >
+        Добавить
+      </button>
+      <button
+        class="btn btn-success m-2"
+        @click="save_changes"
+        v-if="is_update"
+      >
+        Сохранить и закрыть
+      </button>
+      <button class="btn btn-secondary m-2" @click="this.$emit('close_window')">
+        Закрыть
+      </button>
+    </form>
+  </div>
 </template>
 <script>
-export default{
-  props:{
-    acc_data:{
-      type: Array
+import { mapGetters } from "vuex";
+export default {
+  props: {
+    acc_data: {
+      type: Array,
     },
-    is_update:{
-       type: Boolean,
-       default: false
-    } 
+    is_update: {
+      type: Boolean,
+      default: false,
+    },
   },
-  data(){
+  data() {
     return {
-       acc_name: '',
-       acc_limit: 0,
-       acc_type: '',
-       acc_icon: '',
-       form_error:'',
-       form_title: 'Добавление баланса',
-    }
+      acc_name: "",
+      acc_limit: 0,
+      acc_type: "",
+      acc_icon: "",
+      form_error: "",
+      form_title: "Добавление баланса",
+    };
   },
   methods: {
-    create_account(){
-      try{
+    create_account() {
+      if (this.acc_name.length < 3) {
+        this.form_error = "Не заполнено поле: название";
+      } else if (this.acc_limit.length == 0 || parseInt(this.acc_limit) < 0) {
+        this.form_error = "Отсутсвует значение, либо значение меньше 0";
+      } else if (this.acc_type == "") {
+        this.form_error = "Не выбран тип баланса";
+      } else if (this.acc_icon.length < 3) {
+        this.form_error = "Отсутсвует иконка";
+      } else {
         const new_acc = {
-              icon: this.acc_icon, 
-              id: 0,
-              name: this.acc_name,
-              type: this.acc_type,
-              limit:this.acc_limit,
-         }
-           this.$store.dispatch('set_data', new_acc)
-        this.$emit('close_window')
-         } catch(e){
-        this.form_error = 'При выполнении запроса произошла ошибка'
+          icon: this.acc_icon,
+          id: 0,
+          name: this.acc_name,
+          type: this.acc_type,
+          limit: this.acc_limit,
+        };
+        this.$store.dispatch("set_data", new_acc);
+        this.$emit("close_window");
       }
     },
-    get_edit_data(){
-        this.acc_name = this.acc_data.name
-        this.acc_limit = this.acc_data.limit
-        this.acc_type = this.acc_data.type
-        this.acc_icon = this.acc_data.icon
-        this.form_title = "Редактирование баланса"
+    get_edit_data() {
+      this.acc_name = this.acc_data.name;
+      this.acc_limit = this.acc_data.limit;
+      this.acc_type = this.acc_data.type;
+      this.acc_icon = this.acc_data.icon;
+      this.form_title = "Редактирование баланса";
     },
-    save_changes(){
-      try{
-          const upd_acc = {
-              icon: this.acc_icon, 
-              id: this.acc_data.id,
-              name: this.acc_name,
-              type: this.acc_data.type,
-              limit:this.acc_limit,
-         }
-         this.$store.dispatch('update_data', upd_acc)
-         this.$emit('close_window')
-         
-      } catch(e){
-        this.form_error = 'При выполнении запроса произошла ошибка'
+    save_changes() {
+      if (this.acc_name.length < 3) {
+        this.form_error = "Пустое поле: название";
+      } else if (this.acc_limit.length == 0 || parseInt(this.acc_limit) < 0) {
+        this.acc_limit = 0;
+      } else {
+        const upd_acc = {
+          icon: this.acc_icon,
+          id: this.acc_data.id,
+          name: this.acc_name,
+          type: this.acc_data.type,
+          limit: this.acc_limit,
+        };
+        this.$store.dispatch("update_data", upd_acc);
+        this.$emit("close_window");
       }
-    
     },
   },
-  mounted(){
-    if (this.is_update){
-      this.get_edit_data()
+  mounted() {
+    if (this.is_update) {
+      this.get_edit_data();
     }
-    
-  }
-}
+    this.$store.dispatch("get_icons");
+  },
+  computed: {
+    ...mapGetters(["get_acc_icons"]),
+  },
+};
 </script>
 
 <style lang="scss">
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-  
-form{
-    div{
-      margin-bottom: 10px;
-    }
+form {
+  div {
+    margin-bottom: 10px;
   }
+}
 
 .form-control {
-    display: block;
-    width: 100%;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  &:focus {
     color: #212529;
     background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  }
 
-    @media (prefers-reduced-motion: reduce) {
-      transition: none;
-    }
+  &::-webkit-date-and-time-value {
+    height: 1.5em;
+  }
 
-    &:focus {
-      color: #212529;
-      background-color: #fff;
-      border-color: #86b7fe;
-      outline: 0;
-      box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-    }
+  &::-moz-placeholder {
+    color: #6c757d;
+    opacity: 1;
+  }
 
-    &::-webkit-date-and-time-value {
-      height: 1.5em;
-    }
+  &::placeholder {
+    color: #6c757d;
+    opacity: 1;
+  }
 
-    &::-moz-placeholder {
-      color: #6c757d;
-      opacity: 1;
-    }
+  &[type="file"] {
+    overflow: hidden;
+  }
 
-    &::placeholder {
-      color: #6c757d;
-      opacity: 1;
-    }
+  &[type="file"]:not(:disabled):not([readonly]) {
+    cursor: pointer;
+  }
 
-    &[type=file] {
-  overflow: hidden;
+  &:disabled,
+  &[readonly] {
+    background-color: #e9ecef;
+    opacity: 1;
+  }
+  &::-webkit-file-upload-button {
+    padding: 0.375rem 0.75rem;
+    margin: -0.375rem -0.75rem;
+    -webkit-margin-end: 0.75rem;
+    margin-inline-end: 0.75rem;
+    color: #212529;
+    background-color: #e9ecef;
+    pointer-events: none;
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+    border-inline-end-width: 1px;
+    border-radius: 0;
+    -webkit-transition: color 0.15s ease-in-out,
+      background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+      box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+      border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+  &::file-selector-button {
+    padding: 0.375rem 0.75rem;
+    margin: -0.375rem -0.75rem;
+    -webkit-margin-end: 0.75rem;
+    margin-inline-end: 0.75rem;
+    color: #212529;
+    background-color: #e9ecef;
+    pointer-events: none;
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+    border-inline-end-width: 1px;
+    border-radius: 0;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+      border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
 }
-
-    &[type=file]:not(:disabled):not([readonly]) {
-      cursor: pointer;
-    }
-
-
-    &:disabled, &[readonly] {
-      background-color: #e9ecef;
-      opacity: 1;
-    }
-    &::-webkit-file-upload-button {
-      padding: 0.375rem 0.75rem;
-      margin: -0.375rem -0.75rem;
-      -webkit-margin-end: 0.75rem;
-      margin-inline-end: 0.75rem;
-      color: #212529;
-      background-color: #e9ecef;
-      pointer-events: none;
-      border-color: inherit;
-      border-style: solid;
-      border-width: 0;
-      border-inline-end-width: 1px;
-      border-radius: 0;
-      -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-      transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    }
-    &::file-selector-button {
-      padding: 0.375rem 0.75rem;
-      margin: -0.375rem -0.75rem;
-      -webkit-margin-end: 0.75rem;
-      margin-inline-end: 0.75rem;
-      color: #212529;
-      background-color: #e9ecef;
-      pointer-events: none;
-      border-color: inherit;
-      border-style: solid;
-      border-width: 0;
-      border-inline-end-width: 1px;
-      border-radius: 0;
-      transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    }
-}
-
 
 @media (prefers-reduced-motion: reduce) {
   .form-control::-webkit-file-upload-button {
@@ -288,8 +279,11 @@ form{
   border-width: 0;
   border-inline-end-width: 1px;
   border-radius: 0;
-  -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  -webkit-transition: color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 @media (prefers-reduced-motion: reduce) {
   .form-control::-webkit-file-upload-button {
@@ -301,7 +295,7 @@ form{
   background-color: #dde0e3;
 }
 
-.form-container{
+.form-container {
   display: flex;
   flex-flow: column wrap;
   width: 500px;
@@ -331,41 +325,40 @@ form{
   -moz-appearance: none;
   appearance: none;
 
-    @media (prefers-reduced-motion: reduce) {
-        transition: none;
-    }
-    &:focus {
-      border-color: #86b7fe;
-      outline: 0;
-      box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-    }
-    &[multiple], &[size]:not([size="1"]) {
-      padding-right: 0.75rem;
-      background-image: none;
-    }
-    &:disabled {
-      background-color: #e9ecef;
-    }
-    &:-moz-focusring {
-      color: transparent;
-      text-shadow: 0 0 0 #212529;
-    }
-
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+  &:focus {
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  }
+  &[multiple],
+  &[size]:not([size="1"]) {
+    padding-right: 0.75rem;
+    background-image: none;
+  }
+  &:disabled {
+    background-color: #e9ecef;
+  }
+  &:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #212529;
+  }
 }
 .form-label {
   margin-bottom: 0.5rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.5rem;
-  color:#535353
+  color: #535353;
 }
 
-p.green{
-  color:#4da000;
+p.green {
+  color: #4da000;
 }
 
-p.red{
-  color:#a10000;
+p.red {
+  color: #aa0000;
+  margin: 5px;
 }
-
-
 </style>
