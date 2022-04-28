@@ -115,23 +115,35 @@ export default{
               type: this.acc_type,
               limit:this.acc_limit,
          }
-        this.$store.dispatch('set_data', new_acc)
+           this.$store.dispatch('set_data', new_acc)
         this.$emit('close_window')
          } catch(e){
         this.form_error = 'При выполнении запроса произошла ошибка'
       }
     },
     get_edit_data(){
-      if (this.is_update){
         this.acc_name = this.acc_data.name
         this.acc_limit = this.acc_data.limit
         this.acc_type = this.acc_data.type
         this.acc_icon = this.acc_data.icon
         this.form_title = "Редактирование баланса"
-      }
     },
     save_changes(){
-      this.$emit('close_window')      
+      try{
+          const upd_acc = {
+              icon: this.acc_icon, 
+              id: this.acc_data.id,
+              name: this.acc_name,
+              type: this.acc_data.type,
+              limit:this.acc_limit,
+         }
+         this.$store.dispatch('update_data', upd_acc)
+         this.$emit('close_window')
+         
+      } catch(e){
+        this.form_error = 'При выполнении запроса произошла ошибка'
+      }
+    
     },
   },
   mounted(){

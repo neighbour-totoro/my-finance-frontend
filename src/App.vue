@@ -1,5 +1,6 @@
 <template>
 <div>
+  <nav-bar></nav-bar>
     <modal-window v-model:show="show_form">
       <add-account 
          @close_window="this.show_form=false"
@@ -23,10 +24,12 @@ import DataList from './components/DataList.vue'
 import ModalWindow from './components/ModalWindow.vue'
 import AddAccount from './components/AddAccount.vue'
 import ConfirmRemove from './components/ConfirmRemove.vue'
+import NavBar from './components/NavBar.vue'
 export default{
   
 components:{
-   DataList, ModalWindow, AddAccount, ConfirmRemove
+   DataList, ModalWindow, AddAccount, 
+   ConfirmRemove, NavBar
 },
   data(){
     return {
