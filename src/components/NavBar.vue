@@ -1,9 +1,16 @@
 <template>
 <div class="nav">
   <div class="container">
-    <ul>
-      <li><a href="https://uk8aoo.uz/ob_avtore">435 MHz</a></li>
-    </ul>
+    <div class="nav-brand">My Finance Application</div>
+    <div>
+      <form>
+     <select class="form-select" v-model="acc_selected" @change="this.$emit('sort_list', acc_selected)">
+       <option  value="account-all">Все балансы</option>
+            <option 
+            v-for="type in this.$store.state.types" 
+            :key="type.value"  
+            :value="type.value">{{ type.name }}</option>
+          </select></form></div>
   </div>
 </div>
 </template>
@@ -12,7 +19,7 @@ export default{
   name: 'nav-bar',
   data(){
     return{
-      
+      acc_selected: 'account-all'
     }
   }
 }
@@ -29,28 +36,42 @@ export default{
   flex-wrap: wrap;
   padding-left: 0;
   margin-bottom: 0;
-  list-style: none;
   border-bottom: 1px solid #acacac;
-  height: 64px;
+  min-height: 64px;
 
     &-link {
     display: block;
     padding: 0.5rem 1rem;
-    color: #0d6efd;
+    color: #888787;
+    font-size: 1.5rem;
     text-decoration: none;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
-  }
+   }
 
-  .container{
+   &-brand{
+     display: block;
+    padding: 0.5rem 1rem;
+    color: #888787;
+    font-size: 1.5rem;
+    text-decoration: none;
+   }
+
+   form{
+     width: 170px;
+     padding: 0.3rem 1rem;
+     margin-right: 10px;
+   }
+}
+ .container{
+    display: flex;
+    flex-flow: row wrap;
+    align-content: center;
     margin-left: auto;
     margin-right: auto;
     padding:5px;
-    width: 80%;
-    list-style: none;
+    width: 90%;
     max-width: 1450px;
+    justify-content: space-between;
   }
-}
-
 
 
 </style>

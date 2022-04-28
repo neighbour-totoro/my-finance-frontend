@@ -4,6 +4,7 @@
      class="container-item" 
      @click="enable_edit"
     >
+    
           <i :class="acc.icon" class="fa-3x" v-if="!show_edit"></i>
           <p class="title">{{ acc.name }}</p>
           
@@ -12,6 +13,7 @@
             <button @click="$emit('remove', acc)"><i class="far fa-ban"></i>Удалить</button>
             <button @click="$emit('edit', acc)"><i class="far fa-edit"></i>Изменить</button>
         </div>
+       
     </div>
 </template>
 <script>

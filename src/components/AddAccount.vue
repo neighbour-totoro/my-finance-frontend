@@ -1,6 +1,6 @@
 <template>
   <div class="form-container">
-    <p style="font-size: 1.7rem; margin: 3px">{{ form_title }}</p>
+    <p style="font-size: 1.7rem; margin: 5px auto 10px auto">{{ form_title }}</p>
     <form method="post" action="/account" @submit.prevent="true">
       <div>
         <label class="form-label">Название</label>
@@ -21,12 +21,13 @@
         <div v-if="!is_update">
           <label class="form-label">Тип баланса</label>
           <select class="form-select" v-model="acc_type">
-            <option selected value="account-expense">Расход</option>
-            <option value="account-revenue">Доход</option>
-            <option value="account-asset">Счет</option>
+            <option 
+            v-for="type in this.$store.state.types" 
+            :key="type.value"  
+            :value="type.value">{{ type.name }}</option>
           </select>
         </div>
-        <div style="margin-left: 10px">
+        <div style="margin-left: 5px">
           <label class="form-label">Иконка</label>
           <select class="form-select" v-model="acc_icon">
             <option
@@ -69,6 +70,7 @@ export default {
   props: {
     acc_data: {
       type: Array,
+      default: () => []
     },
     is_update: {
       type: Boolean,
@@ -154,203 +156,9 @@ export default {
 
 form {
   div {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    width:380px
   }
-}
-
-.form-control {
-  display: block;
-  width: 100%;
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #212529;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid #ced4da;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  border-radius: 0.25rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
-  }
-
-  &:focus {
-    color: #212529;
-    background-color: #fff;
-    border-color: #86b7fe;
-    outline: 0;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-  }
-
-  &::-webkit-date-and-time-value {
-    height: 1.5em;
-  }
-
-  &::-moz-placeholder {
-    color: #6c757d;
-    opacity: 1;
-  }
-
-  &::placeholder {
-    color: #6c757d;
-    opacity: 1;
-  }
-
-  &[type="file"] {
-    overflow: hidden;
-  }
-
-  &[type="file"]:not(:disabled):not([readonly]) {
-    cursor: pointer;
-  }
-
-  &:disabled,
-  &[readonly] {
-    background-color: #e9ecef;
-    opacity: 1;
-  }
-  &::-webkit-file-upload-button {
-    padding: 0.375rem 0.75rem;
-    margin: -0.375rem -0.75rem;
-    -webkit-margin-end: 0.75rem;
-    margin-inline-end: 0.75rem;
-    color: #212529;
-    background-color: #e9ecef;
-    pointer-events: none;
-    border-color: inherit;
-    border-style: solid;
-    border-width: 0;
-    border-inline-end-width: 1px;
-    border-radius: 0;
-    -webkit-transition: color 0.15s ease-in-out,
-      background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
-      box-shadow 0.15s ease-in-out;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-      border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  }
-  &::file-selector-button {
-    padding: 0.375rem 0.75rem;
-    margin: -0.375rem -0.75rem;
-    -webkit-margin-end: 0.75rem;
-    margin-inline-end: 0.75rem;
-    color: #212529;
-    background-color: #e9ecef;
-    pointer-events: none;
-    border-color: inherit;
-    border-style: solid;
-    border-width: 0;
-    border-inline-end-width: 1px;
-    border-radius: 0;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-      border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .form-control::-webkit-file-upload-button {
-    -webkit-transition: none;
-    transition: none;
-  }
-  .form-control::file-selector-button {
-    transition: none;
-  }
-}
-.form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button {
-  background-color: #dde0e3;
-}
-.form-control:hover:not(:disabled):not([readonly])::file-selector-button {
-  background-color: #dde0e3;
-}
-.form-control::-webkit-file-upload-button {
-  padding: 0.375rem 0.75rem;
-  margin: -0.375rem -0.75rem;
-  -webkit-margin-end: 0.75rem;
-  margin-inline-end: 0.75rem;
-  color: #212529;
-  background-color: #e9ecef;
-  pointer-events: none;
-  border-color: inherit;
-  border-style: solid;
-  border-width: 0;
-  border-inline-end-width: 1px;
-  border-radius: 0;
-  -webkit-transition: color 0.15s ease-in-out,
-    background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
-    box-shadow 0.15s ease-in-out;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-@media (prefers-reduced-motion: reduce) {
-  .form-control::-webkit-file-upload-button {
-    -webkit-transition: none;
-    transition: none;
-  }
-}
-.form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button {
-  background-color: #dde0e3;
-}
-
-.form-container {
-  display: flex;
-  flex-flow: column wrap;
-  width: 500px;
-  padding: 5px;
-  background-color: #fff;
-  margin: auto;
-}
-
-.form-select {
-  display: block;
-  width: 100%;
-  padding: 0.375rem 2.25rem 0.375rem 0.75rem;
-  -moz-padding-start: calc(0.75rem - 3px);
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.6;
-  color: #212529;
-  background-color: #fff;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 0.75rem center;
-  background-size: 16px 12px;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
-  }
-  &:focus {
-    border-color: #86b7fe;
-    outline: 0;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-  }
-  &[multiple],
-  &[size]:not([size="1"]) {
-    padding-right: 0.75rem;
-    background-image: none;
-  }
-  &:disabled {
-    background-color: #e9ecef;
-  }
-  &:-moz-focusring {
-    color: transparent;
-    text-shadow: 0 0 0 #212529;
-  }
-}
-.form-label {
-  margin-bottom: 0.5rem;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.5rem;
-  color: #535353;
 }
 
 p.green {
@@ -359,6 +167,6 @@ p.green {
 
 p.red {
   color: #aa0000;
-  margin: 5px;
+  margin-bottom: 5px
 }
 </style>
