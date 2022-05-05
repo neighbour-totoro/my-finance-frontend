@@ -1,31 +1,28 @@
 <template>
-<div class="nav">
-  <div class="container">
-    <div class="nav-brand">My Finance Application</div>
-    <div>
-      <form>
-     <select class="form-select" v-model="acc_selected" @change="this.$emit('sort_list', acc_selected)">
-       <option  value="account-all">Все балансы</option>
-            <option 
-            v-for="type in this.$store.state.types" 
-            :key="type.value"  
-            :value="type.value">{{ type.name }}</option>
-          </select></form></div>
+  <div class="nav">
+    <div class="container">
+      <div class="nav-brand">My Finance Application</div>
+      <div class="buttons">
+        <button class="btn btn-light" @click="this.$emit('recharge')">
+          <img src="@/assets/wallet.png" />
+          Пополнить
+        </button>
+      </div>
+    </div>
   </div>
-</div>
 </template>
 <script>
-export default{
-  name: 'nav-bar',
-  data(){
-    return{
-      acc_selected: 'account-all'
-    }
-  }
-}
+export default {
+  name: "nav-bar",
+  data() {
+    return {
+      acc_selected: "account-all",
+    };
+  },
+};
 </script>
 <style lang="scss" scoped>
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -39,39 +36,43 @@ export default{
   border-bottom: 1px solid #acacac;
   min-height: 64px;
 
-    &-link {
+  &-link {
     display: block;
     padding: 0.5rem 1rem;
     color: #888787;
     font-size: 1.5rem;
     text-decoration: none;
-   }
+  }
 
-   &-brand{
-     display: block;
+  &-brand {
+    display: block;
     padding: 0.5rem 1rem;
     color: #888787;
     font-size: 1.5rem;
     text-decoration: none;
-   }
-
-   form{
-     width: 175px;
-     padding: 0.3rem 1rem;
-     margin-right: 10px;
-   }
-}
- .container{
-    display: flex;
-    flex-flow: row wrap;
-    align-content: center;
-    margin-left: auto;
-    margin-right: auto;
-    padding:5px;
-    width: 90%;
-    max-width: 1450px;
-    justify-content: space-between;
   }
 
+  form {
+    width: 175px;
+    padding: 0.3rem 1rem;
+    margin-right: 10px;
+  }
 
+  .buttons {
+    height: 100%;
+    padding: 0.3rem 1rem;
+    margin-right: 10px;
+  }
+}
+.container {
+  display: flex;
+  flex-flow: row wrap;
+  align-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5px;
+  width: 90%;
+  max-width: 1450px;
+  justify-content: space-between;
+}
 </style>

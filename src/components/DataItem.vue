@@ -9,7 +9,7 @@
           <p class="title">{{ acc.name }}</p>
           
           <div v-if="acc.limit > 0" style="font-size:1rem">
-            <p>{{ ac_lim_name }}: {{ acc.limit}}</p>
+            <p>{{ acc.limit }}</p>
             </div>
         <div class="container-item-actions" v-if="show_edit" @click.stop>
             <button @click="$emit('remove', acc)"><i class="far fa-ban"></i>Удалить</button>
@@ -26,7 +26,6 @@ export default{
   data(){
      return{
        show_edit: false,
-       ac_lim_name: ''
      }
   },
   methods:{
@@ -38,15 +37,7 @@ export default{
      }
   },
   mounted(){
-    if (this.acc.type == 'account-revenue'){
-       this.ac_lim_name = "Сумма"
-    }
-    else if (this.acc.type == 'account-asset'){
-      this.ac_lim_name = "Общее"
-    }
-    else{
-      this.ac_lim_name = "Лимит"
-    }
+
   }
 }
 </script>
@@ -115,7 +106,7 @@ export default{
       color: #fff;
     }
     .account-expense{
-      background-color: #691c27;
+      background-color: #750012;
       color: #fff;
     }
 </style>

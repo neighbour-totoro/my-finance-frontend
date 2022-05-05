@@ -1,14 +1,29 @@
 <template>
   <div class="data-list">
     <div class="container">
-        <div v-for="acc in filtered_acc" v-bind:key="acc.id">
-          <data-item
-            v-if="acc.expirationDate == null"
-            :acc="acc"
-            @remove="$emit('remove', acc)"
-            @edit="$emit('edit', acc)"
-          />
-        </div>
+      <div v-for="acc in acc_revenue" v-bind:key="acc.id">
+        <data-item
+          :acc="acc"
+          @remove="$emit('remove', acc)"
+          @edit="$emit('edit', acc)"
+        />
+      </div>
+
+            <div v-for="acc in acc_asset" v-bind:key="acc.id">
+        <data-item
+          :acc="acc"
+          @remove="$emit('remove', acc)"
+          @edit="$emit('edit', acc)"
+        />
+      </div>
+
+            <div v-for="acc in acc_expense" v-bind:key="acc.id">
+        <data-item
+          :acc="acc"
+          @remove="$emit('remove', acc)"
+          @edit="$emit('edit', acc)"
+        />
+      </div>
       <button class="container-item-add" @click="add">
         <img src="@/assets/add.png" />Добавить
       </button>
@@ -42,18 +57,35 @@ export default {
   computed: {
     ...mapGetters(["get_results"]),
 
-    filtered_acc: function(){
-    if ((this.acc_types == 'account-all') || (this.acc_types == '')) {
-      return this.$store.getters.get_results
-      }
-       else{
-         return this.get_results.filter(data => data.type === this.acc_types);
-       }
+    acc_revenue: function(){
+         return this.get_results.filter(function(item){
+          if ((item.expirationDate == null)  && (item.type == 'account-revenue')){
+            return true
+          }
+          return false
+        });
+    },
+    acc_asset: function(){
+         return this.get_results.filter(function(item){
+          if ((item.expirationDate == null)  && (item.type =='account-asset')){
+            return true
+          }
+          return false
+        });
+    },
+    acc_expense: function(){
+         return this.get_results.filter(function(item){
+          if ((item.expirationDate == null)  && (item.type == 'account-expense')){
+            return true
+          }
+          return false
+        });
+     },
      
-     }
+
   },
   watch: {
-
+     ...mapGetters(["get_results"]),
   },
 };
 </script>
@@ -154,6 +186,4 @@ export default {
     }
   }
 }
-
-
 </style>

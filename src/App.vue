@@ -1,6 +1,6 @@
 <template>
 <div>
-  <nav-bar @sort_list="sort_data_list"></nav-bar>
+  <nav-bar @recharge="this.show_charge = true"></nav-bar>
     <modal-window v-model:show="show_form">
       <add-account 
          @close_window="this.show_form=false"
@@ -18,6 +18,11 @@
        <confirm-remove :acc_id="acc_id" 
        @close_window="this.deletion_show=false"/>
     </modal-window>
+    <modal-window v-model:show="show_charge">
+      <charge-form
+       @close_window="this.show_charge=false"
+      />
+    </modal-window>
 </div>
 </template>
 <script>
@@ -26,11 +31,12 @@ import ModalWindow from './components/ModalWindow.vue'
 import AddAccount from './components/AddAccount.vue'
 import ConfirmRemove from './components/ConfirmRemove.vue'
 import NavBar from './components/NavBar.vue'
+import ChargeForm from './components/ChargeForm.vue'
 export default{
   
 components:{
    DataList, ModalWindow, AddAccount, 
-   ConfirmRemove, NavBar
+   ConfirmRemove, NavBar, ChargeForm
 },
   data(){
     return {
@@ -39,7 +45,7 @@ components:{
      deletion_show: false,
      acc_id: () => [],
      form_mode: false,
-     acc_types: ''
+     show_charge: false
     }
   },
   methods:{
@@ -58,9 +64,6 @@ components:{
       this.form_mode = true
       this.show_form = true
     },
-    sort_data_list(type){
-      this.acc_types = type;
-    }
   },
 }
 </script>
