@@ -1,30 +1,16 @@
 <template>
   <div class="data-list">
+    <p class="title">{{ acc_types.name_plural }}</p>
     <div class="container">
-      <div v-for="acc in acc_revenue" v-bind:key="acc.id">
+      <div v-for="acc in filtered_acc" v-bind:key="acc.id">
         <data-item
+          v-if="acc.type == acc_types.value"
           :acc="acc"
           @remove="$emit('remove', acc)"
           @edit="$emit('edit', acc)"
         />
       </div>
-
-            <div v-for="acc in acc_asset" v-bind:key="acc.id">
-        <data-item
-          :acc="acc"
-          @remove="$emit('remove', acc)"
-          @edit="$emit('edit', acc)"
-        />
-      </div>
-
-            <div v-for="acc in acc_expense" v-bind:key="acc.id">
-        <data-item
-          :acc="acc"
-          @remove="$emit('remove', acc)"
-          @edit="$emit('edit', acc)"
-        />
-      </div>
-      <button class="container-item-add" @click="add">
+      <button class="container-item-add" @click="this.$emit('add_account', acc_types.value)">
         <img src="@/assets/add.png" />Добавить
       </button>
     </div>
@@ -37,19 +23,14 @@ export default {
   components: {
     DataItem,
   },
-  props:{
-    acc_types:{
+  props: {
+    acc_types: {
       type: String,
-      default: 'account-all'
-    }
+      default: "account-all",
+    },
   },
   data() {
     return {};
-  },
-  methods: {
-    add() {
-      this.$emit("add_account");
-    },
   },
   mounted() {
     this.$store.dispatch("get_data");
@@ -57,35 +38,17 @@ export default {
   computed: {
     ...mapGetters(["get_results"]),
 
-    acc_revenue: function(){
-         return this.get_results.filter(function(item){
-          if ((item.expirationDate == null)  && (item.type == 'account-revenue')){
-            return true
-          }
-          return false
-        });
+    filtered_acc: function () {
+      return this.get_results.filter(function (item) {
+        if (item.expirationDate == null) {
+          return true;
+        }
+        return false;
+      });
     },
-    acc_asset: function(){
-         return this.get_results.filter(function(item){
-          if ((item.expirationDate == null)  && (item.type =='account-asset')){
-            return true
-          }
-          return false
-        });
-    },
-    acc_expense: function(){
-         return this.get_results.filter(function(item){
-          if ((item.expirationDate == null)  && (item.type == 'account-expense')){
-            return true
-          }
-          return false
-        });
-     },
-     
-
   },
   watch: {
-     ...mapGetters(["get_results"]),
+    ...mapGetters(["get_results"]),
   },
 };
 </script>
@@ -99,8 +62,14 @@ export default {
 .data-list {
   width: 100%;
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column wrap;
   align-items: center;
+
+  .title{
+    font-size: 1.8rem; 
+    padding: 5px; 
+    color: #777676;
+  }
 }
 
 .container {

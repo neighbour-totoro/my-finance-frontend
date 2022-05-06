@@ -20,7 +20,7 @@
       >
         <div v-if="!is_update">
           <label class="form-label">Тип баланса</label>
-          <select class="form-select" v-model="acc_type">
+          <select class="form-select" v-model="acc_type" >
             <option 
             v-for="type in this.$store.state.types" 
             :key="type.value"  
@@ -76,12 +76,13 @@ export default {
       type: Boolean,
       default: false,
     },
+
   },
   data() {
     return {
       acc_name: "",
       acc_limit: 0,
-      acc_type: "account-revenue",
+      acc_type: 'account-revenue',
       acc_icon: "far fa-wallet",
       form_error: "",
       form_title: "Добавление баланса",

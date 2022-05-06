@@ -5,9 +5,9 @@ export default createStore({
   state: {
     results: [],
     icons: [],
-    types: [{ name: "Доход", value: "account-revenue" },
-            { name: "Расход", value: "account-expense" },
-            { name: "Счёт", value: "account-asset" }]
+    types: [{ name: "Доход", name_plural: "Доходы", value: "account-revenue" },
+    { name: "Расход", name_plural: "Расходы", value: "account-expense" },
+    { name: "Счёт", name_plural: "Счета", value: "account-asset" }]
   },
 
   getters: {
