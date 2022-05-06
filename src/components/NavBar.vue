@@ -3,8 +3,8 @@
     <div class="container">
       <div class="nav-brand">My Finance Application</div>
       <div class="buttons">
-        <button class="btn btn-light" @click="this.$emit('recharge')">
-          <img src="@/assets/wallet.png" />
+        <button type="button" class="btn btn-light" @click="this.$emit('recharge')">
+          <img src="@/assets/money_add.png" style="height:25px"/>&nbsp;
           Пополнить
         </button>
       </div>
@@ -35,6 +35,11 @@ export default {
   margin-bottom: 0;
   border-bottom: 1px solid #acacac;
   min-height: 64px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  background-color: #fff;
 
   &-link {
     display: block;

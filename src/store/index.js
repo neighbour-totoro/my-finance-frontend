@@ -12,7 +12,7 @@ export default createStore({
 
   getters: {
     get_results: state => {
-      return state.results
+      return state.results.sort((a, b) => a.name.localeCompare(b.name))
     },
     get_acc_icons: state => {
       return state.icons

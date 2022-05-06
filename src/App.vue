@@ -6,6 +6,7 @@
         @close_window="this.show_form = false"
         :acc_data="acc_id"
         :is_update="form_mode"
+        :default_type = "def_type"
       />
     </modal-window>
 
@@ -53,14 +54,15 @@ export default {
       acc_id: () => [],
       form_mode: false,
       show_charge: false,
-      ac_type: "account-revenue",
+      def_type: "account-revenue",
     };
   },
   methods: {
-    display_form() {
+    display_form(event) {
       this.acc_id = () => [];
       this.form_mode = false;
       this.show_form = true;
+      this.def_type = event
     },
     remove_acc(data_item) {
       this.deletion_show = true;

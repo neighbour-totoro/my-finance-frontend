@@ -1,6 +1,10 @@
 <template>
   <div class="data-list">
-    <p class="title">{{ acc_types.name_plural }}</p>
+    <div class="title">{{ acc_types.name_plural }}
+      <div>
+    <button class="btn btn-light" style="margin-right:5px">Кнопка 1</button>
+     <button class="btn btn-light">Кнопка 2</button></div>
+    </div>
     <div class="container">
       <div v-for="acc in filtered_acc" v-bind:key="acc.id">
         <data-item
@@ -10,8 +14,11 @@
           @edit="$emit('edit', acc)"
         />
       </div>
-      <button class="container-item-add" @click="this.$emit('add_account', acc_types.value)">
-        <img src="@/assets/add.png" />Добавить
+      <button
+        class="container-item-add"
+        @click="this.$emit('add_account', acc_types.value)"
+      >
+        <img src="@/assets/plus_button.png" />Добавить
       </button>
     </div>
   </div>
@@ -65,11 +72,32 @@ export default {
   flex-flow: column wrap;
   align-items: center;
 
-  .title{
-    font-size: 1.8rem; 
-    padding: 5px; 
+  .title {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    //border-bottom: 1px solid #dfdcdc;
+    width:85%;
+    max-width: 1250px;
+    font-size: 1.8rem;
+    padding: 5px;
     color: #777676;
+    margin-top: 5px;
+
+
+      @media (max-width: 991px) {
+        width: 75%;
+     }
+  @media (max-width: 768px) {
+    width: 80%;
+    padding: 10px;
   }
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 10px;
+  }
+  }
+  
 }
 
 .container {

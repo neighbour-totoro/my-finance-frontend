@@ -76,13 +76,15 @@ export default {
       type: Boolean,
       default: false,
     },
-
+    default_type:{
+      type: String
+    }
   },
   data() {
     return {
       acc_name: "",
       acc_limit: 0,
-      acc_type: 'account-revenue',
+      acc_type: this.default_type,
       acc_icon: "far fa-wallet",
       form_error: "",
       form_title: "Добавление баланса",
@@ -91,7 +93,7 @@ export default {
   methods: {
     create_account() {
       if (this.acc_name.length < 3) {
-        this.form_error = "Вы не указали название баланса";
+        this.form_error = "Вы не указали название баланса (3 и более символов)";
       } else if (this.acc_type == "") {
         this.form_error = "Выберите тип баланса.Это важно";
       } else if (this.acc_icon.length < 3) {
