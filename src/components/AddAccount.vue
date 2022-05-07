@@ -76,15 +76,12 @@ export default {
       type: Boolean,
       default: false,
     },
-    default_type:{
-      type: String
-    }
   },
   data() {
     return {
       acc_name: "",
       acc_limit: 0,
-      acc_type: this.default_type,
+      acc_type: 'account-revenue',
       acc_icon: "far fa-wallet",
       form_error: "",
       form_title: "Добавление баланса",

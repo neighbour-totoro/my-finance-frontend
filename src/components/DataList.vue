@@ -2,8 +2,18 @@
   <div class="data-list">
     <div class="title">{{ acc_types.name_plural }}
       <div>
-    <button class="btn btn-light" style="margin-right:5px">Кнопка 1</button>
-     <button class="btn btn-light">Кнопка 2</button></div>
+        <div v-if="acc_types.value=='account-revenue'">             
+          <button class="btn btn-light mlr-1">Перевод</button>
+           <button  class="btn btn-light mlr-1" @click="this.$emit('recharge')">
+          <img src="@/assets/money_add.png" style="height:25px"/>&nbsp;
+          Пополнить
+        </button>
+       </div>
+        <div v-else>
+          <button class="btn btn-light" @click="this.$emit('set_transaction')">Ввести расход</button>
+       </div>
+       
+       </div>
     </div>
     <div class="container">
       <div v-for="acc in filtered_acc" v-bind:key="acc.id">
@@ -14,12 +24,6 @@
           @edit="$emit('edit', acc)"
         />
       </div>
-      <button
-        class="container-item-add"
-        @click="this.$emit('add_account', acc_types.value)"
-      >
-        <img src="@/assets/plus_button.png" />Добавить
-      </button>
     </div>
   </div>
 </template>
@@ -33,7 +37,6 @@ export default {
   props: {
     acc_types: {
       type: String,
-      default: "account-all",
     },
   },
   data() {
@@ -71,6 +74,8 @@ export default {
   display: flex;
   flex-flow: column wrap;
   align-items: center;
+  margin-top:20px;
+  margin-bottom: 10px;
 
   .title {
     display: flex;
@@ -183,4 +188,8 @@ export default {
     }
   }
 }
+  .mlr-1{
+    margin-right: 3px;
+    margin-left: 3px;
+  }
 </style>

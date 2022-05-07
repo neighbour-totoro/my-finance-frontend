@@ -31,11 +31,12 @@ export default{
   bottom: 0;
   left: 0;
   right:0;
-  background-color: #22222270;
+  background-color: #22222296;
   display:flex;
   position: fixed;
   flex-direction: column;
   justify-content: center;
+  z-index: 1025;
 }
 
 .dialog__content {

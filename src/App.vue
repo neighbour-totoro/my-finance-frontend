@@ -1,32 +1,44 @@
 <template>
   <div>
-    <nav-bar @recharge="this.show_charge = true"></nav-bar>
+     <!-- Навигация -->
+    <nav-bar @add_account="display_form"></nav-bar>
+
+    <!-- добавление/редактирование аккаунта -->
     <modal-window v-model:show="show_form">
       <add-account
         @close_window="this.show_form = false"
         :acc_data="acc_id"
         :is_update="form_mode"
-        :default_type = "def_type"
       />
     </modal-window>
 
+     <!-- Отрисовка списков -->
     <div v-for="row in this.$store.state.types" :key="row.value">
       <data-list
-        @add_account="display_form"
         @remove="remove_acc"
         @edit="edit_acc"
+        @recharge="this.show_charge = true"
+        @set_transaction="this.show_transact = true"
         :acc_types="row"
       />
     </div>
 
+    <!--  Подтверждение удаления -->
     <modal-window v-model:show="deletion_show">
       <confirm-remove
         :acc_id="acc_id"
         @close_window="this.deletion_show = false"
       />
     </modal-window>
+
+     <!--  Пополнение доходов -->
     <modal-window v-model:show="show_charge">
       <charge-form @close_window="this.show_charge = false" />
+    </modal-window>
+
+     <!-- Транзакции -->
+    <modal-window v-model:show="show_transact">
+      <transaction-form @close_window="this.show_transact = false" />
     </modal-window>
   </div>
 </template>
@@ -37,6 +49,7 @@ import AddAccount from "./components/AddAccount.vue";
 import ConfirmRemove from "./components/ConfirmRemove.vue";
 import NavBar from "./components/NavBar.vue";
 import ChargeForm from "./components/ChargeForm.vue";
+import TransactionForm from "@/components/TransactionForm.vue";
 export default {
   components: {
     DataList,
@@ -45,6 +58,7 @@ export default {
     ConfirmRemove,
     NavBar,
     ChargeForm,
+    TransactionForm,
   },
   data() {
     return {
@@ -54,15 +68,14 @@ export default {
       acc_id: () => [],
       form_mode: false,
       show_charge: false,
-      def_type: "account-revenue",
+      show_transact: false,
     };
   },
   methods: {
-    display_form(event) {
+    display_form() {
       this.acc_id = () => [];
       this.form_mode = false;
       this.show_form = true;
-      this.def_type = event
     },
     remove_acc(data_item) {
       this.deletion_show = true;

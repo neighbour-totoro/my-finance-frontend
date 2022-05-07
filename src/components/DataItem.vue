@@ -1,5 +1,10 @@
 <template>
-  <div :class="acc.type" class="container-item" @click="enable_edit" @dblclick="$emit('edit', acc)">
+  <div
+    :class="acc.type"
+    class="container-item"
+    @click="enable_edit"
+    @dblclick="$emit('edit', acc)"
+  >
     <i :class="acc.icon" class="fa-3x" v-if="!show_edit"></i>
     <p class="title">{{ acc.name }}</p>
 
@@ -52,6 +57,7 @@ export default {
   font-weight: 400;
   transition-property: box-shadow;
   transition-duration: 0.4s;
+  user-select: none;
 
   .title {
     font-size: 1.3rem;
